@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% get_cart_total_qty request as total %}
+
+{% block title %}
+Shop page
+{% endblock %}
+
+{% block content %}
+
+{% get_categories as categories %}
+
+<div class="main-content-wrapper d-flex clearfix">
+
+    <!-- Header Area Start -->
+    <header class="header-area clearfix">
+        <!-- Close Icon -->
+        <div class="nav-close">
+            <i class="fa fa-close" aria-hidden="true"></i>
+        </div>
+        <!-- Logo -->
+        <div class="logo">
+            <a href="{% url 'store:home' %}"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
+        </div>
+        <!-- Amado Nav -->
+        <nav class="amado-nav">
+            <ul>
+                <li>
+                    <a href="{% url 'store:home' %}">Home</a>
+                </li>
+                <li class="active">
+                    {% if '/shop/ in request.path' %}
+                    <a class="active" href="{% url 'store:shop' %}">Shop</a>
+                    {% else %}
+                    <a href="{% url 'store:shop' %}">Shop</a>
+                    {% endif %}
+                </li>
+
+                {% include './include/shop/_login.html' %}
+            </ul>
+        </nav>
+        <!-- Cart Menu -->
+        <div class="cart-fav-search mb-100">
+            {% get_cart_total_qty request as total %}
+            <a href="{% url 'cart:home' %}" class="cart-nav"><img src="{% static 'img/core-img/cart.png' %}" alt="">
+                Cart <small class="text-warning fw-normal">({{ total }})</small></a>
+            <a href="#" class="search-nav"><img src="{% static 'img/core-img/search.png' %}" alt=""> Search</a>
+        </div>
+        <!-- Social Button -->
+        <div class="social-info d-flex justify-content-between">
+            <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-telegram" aria-hidden="true"></i></a>
+        </div>
+    </header>
+    <!-- Header Area End -->
+
+    {% include './include/shop/_sidebar.html' %}
+
+    <div class="amado_product_area section-padding-100">
+        <div class="container-fluid">
+
+            {% include './include/shop/_filters.html' %}
+
+            <div class="row">
+                <!-- Single Product Area -->
+                {% for product in products %}
+                <div class="col-12 col-sm-6 col-md-12 col-xl-6">
+                    <div class="single-product-wrapper">
+                        <!-- Product Image -->
+                        <div class="product-img">
+                            <img src="{{ product.preview.url }}" alt="{{ product.name }}">
+                            <!-- Hover Thumb -->
+                            <img class="hover-img" src="{{ product.preview }}" alt="{{ product.name }}">
+                        </div>
+
+                        <!-- Product Description -->
+                        <div class="product-description d-flex align-items-center justify-content-between">
+                            <!-- Product Meta Data -->
+                            <div class="product-meta-data">
+                                <div class="line"></div>
+                                <p class="product-price">${{ product.price }}</p>
+                                <a href="{{ product.get_absolute_url}}">
+                                    <h6>{{ product.name }}</h6>
+                                </a>
+                            </div>
+                            <!-- Ratings & Cart -->
+                            <div class="ratings-cart text-right">
+                                <div class="cart">
+                                    <a href="{{ product.add_to_cart }}" data-toggle="tooltip" data-placement="left"
+                                       title="Add to Cart"><img
+                                            src="{% static 'img/core-img/cart.png' %}" alt=""></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <h2 class="text-center">No products</h2>
+                {% endfor %}
+            </div>
+
+            {% include './include/shop/_pagination.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

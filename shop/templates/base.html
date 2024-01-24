@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en-ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title  -->
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+
+    {% include 'include/_links.html' %}
+
+</head>
+
+<body>
+<!-- SEARCH -->
+{% include 'include/_search.html' %}
+
+{% block content %}
+{% endblock %}
+
+<!-- Newsletter Area Start -->
+{% include 'include/_area.html' %}
+
+<!--  Footer Area Start  -->
+{% include 'include/_footer.html' %}
+
+
+<!--  jQuery (Necessary for All JavaScript Plugins)  -->
+{% include 'include/_scripts.html' %}
+
+</body>
+
+</html>
